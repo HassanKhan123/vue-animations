@@ -3,6 +3,12 @@
     <div class="block" :class="{ animate: blockAnimate }"></div>
     <button @click="animateBlock">Animate</button>
   </div>
+  <div class="container">
+    <transition>
+      <p v-if="paraVisible">This is visible</p>
+    </transition>
+    <button @click="toggleParagraph">Toggle Paragraph</button>
+  </div>
   <base-modal @close="hideDialog" v-if="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
@@ -15,7 +21,7 @@
 <script>
 export default {
   data() {
-    return { dialogIsVisible: false, blockAnimate: false };
+    return { dialogIsVisible: false, blockAnimate: false, paraVisible: false };
   },
   methods: {
     showDialog() {
@@ -26,6 +32,9 @@ export default {
     },
     animateBlock() {
       this.blockAnimate = true;
+    },
+    toggleParagraph() {
+      this.paraVisible = !this.paraVisible;
     },
   },
 };
@@ -74,6 +83,30 @@ button:active {
 }
 .animate {
   animation: slide-fade 0.5s ease-out forwards;
+}
+
+.v-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+.v-enter-active {
+  transition: all 0.4s ease-out;
+}
+.v-enter-to {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.v-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+.v-leave-active {
+  transition: all 0.4s ease-in;
+}
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 
 @keyframes slide-fade {
