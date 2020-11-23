@@ -10,7 +10,17 @@
       leave-active-class=""
       leave-to-class=""
     > -->
-    <transition name="para">
+    <transition
+      name="para"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+      @after-leave="afterLeave"
+      @enter-cancelled="enterCancelled"
+      @leave-cancelled="leaveCancelled"
+    >
       <p v-if="paraVisible">This is visible</p>
     </transition>
     <button @click="toggleParagraph">Toggle Paragraph</button>
@@ -40,6 +50,8 @@ export default {
       blockAnimate: false,
       paraVisible: false,
       usersAreVisible: false,
+      enterInterval: null,
+      leaveInterval: null,
     };
   },
   methods: {
@@ -60,6 +72,42 @@ export default {
     },
     hideUsers() {
       this.usersAreVisible = false;
+    },
+    beforeEnter(el) {
+      el.style.opacity = 0;
+    },
+    enter(el, done) {
+      let round = 1;
+      this.enterInterval = setInterval(() => {
+        el.style.opacity = round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.enterInterval);
+          done();
+        }
+      }, 20);
+    },
+    afterEnter() {},
+    beforeLeave(el) {
+      el.style.opacity = 1;
+    },
+    leave(el, done) {
+      let round = 1;
+      this.leaveInterval = setInterval(() => {
+        el.style.opacity = 1 - round * 0.01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      }, 20);
+    },
+    afterLeave() {},
+    leaveCancelled() {
+      clearInterval(this.leaveInterval);
+    },
+    enterCancelled() {
+      clearInterval(this.enterInterval);
     },
   },
 };
@@ -110,21 +158,6 @@ button:active {
   animation: slide-fade 0.5s ease-out forwards;
 }
 
-.para-enter-from {
-}
-.para-enter-active {
-  animation: slide-fade 0.5s ease-out;
-}
-.para-enter-to {
-}
-
-.para-leave-from {
-}
-.para-leave-active {
-  animation: slide-fade 0.5s ease-out;
-}
-.para-leave-to {
-}
 .btn-enter-from,
 .btn-leave-to {
   opacity: 0;
