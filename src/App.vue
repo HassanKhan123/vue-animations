@@ -1,58 +1,14 @@
 <template>
-  <div class="container">
-    <UsersList />
-  </div>
-  <div class="container">
-    <div class="block" :class="{ animate: blockAnimate }"></div>
-    <button @click="animateBlock">Animate</button>
-  </div>
-  <div class="container">
-    <!--  <transition name="para"
-      enter-active-class=""
-      enter-to-class=""
-      leave-active-class=""
-      leave-to-class=""
-    > -->
-    <transition
-      name="para"
-      @before-enter="beforeEnter"
-      @enter="enter"
-      @after-enter="afterEnter"
-      @before-leave="beforeLeave"
-      @leave="leave"
-      @after-leave="afterLeave"
-      @enter-cancelled="enterCancelled"
-      @leave-cancelled="leaveCancelled"
-      :css="false"
-    >
-      <p v-if="paraVisible">This is visible</p>
-    </transition>
-    <button @click="toggleParagraph">Toggle Paragraph</button>
-  </div>
-  <div class="container">
+  <router-view v-slot="slotProps">
     <transition name="btn" mode="out-in">
-      <button @click="showUsers" v-if="!usersAreVisible">Show Users</button>
-      <button @click="hideUsers" v-else>Hide Users</button>
+      <component :is="slotProps.Component"></component>
     </transition>
-  </div>
-
-  <base-modal @close="hideDialog" :open="dialogIsVisible">
-    <p>This is a test dialog!</p>
-    <button @click="hideDialog">Close it!</button>
-  </base-modal>
-
-  <div class="container">
-    <button @click="showDialog">Show Dialog</button>
-  </div>
+  </router-view>
 </template>  
 
 <script>
-import UsersList from './components/UsersList';
-
 export default {
-  components: {
-    UsersList,
-  },
+  components: {},
   data() {
     return {
       dialogIsVisible: false,
