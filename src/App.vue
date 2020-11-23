@@ -15,6 +15,12 @@
     </transition>
     <button @click="toggleParagraph">Toggle Paragraph</button>
   </div>
+  <div class="container">
+    <transition name="btn" mode="out-in">
+      <button @click="showUsers" v-if="!usersAreVisible">Show Users</button>
+      <button @click="hideUsers" v-else>Hide Users</button>
+    </transition>
+  </div>
 
   <base-modal @close="hideDialog" :open="dialogIsVisible">
     <p>This is a test dialog!</p>
@@ -29,7 +35,12 @@
 <script>
 export default {
   data() {
-    return { dialogIsVisible: false, blockAnimate: false, paraVisible: false };
+    return {
+      dialogIsVisible: false,
+      blockAnimate: false,
+      paraVisible: false,
+      usersAreVisible: false,
+    };
   },
   methods: {
     showDialog() {
@@ -43,6 +54,12 @@ export default {
     },
     toggleParagraph() {
       this.paraVisible = !this.paraVisible;
+    },
+    showUsers() {
+      this.usersAreVisible = true;
+    },
+    hideUsers() {
+      this.usersAreVisible = false;
     },
   },
 };
@@ -107,6 +124,20 @@ button:active {
   animation: slide-fade 0.5s ease-out;
 }
 .para-leave-to {
+}
+.btn-enter-from,
+.btn-leave-to {
+  opacity: 0;
+}
+.btn-enter-active {
+  transition: opacity 0.3s ease-out;
+}
+.btn-leave-active {
+  transition: opacity 0.3s ease-in;
+}
+.btn-enter-to,
+.btn-leave-from {
+  opacity: 1;
 }
 
 @keyframes slide-fade {
