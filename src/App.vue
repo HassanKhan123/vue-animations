@@ -20,6 +20,7 @@
       @after-leave="afterLeave"
       @enter-cancelled="enterCancelled"
       @leave-cancelled="leaveCancelled"
+      :css="false"
     >
       <p v-if="paraVisible">This is visible</p>
     </transition>
