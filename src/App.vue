@@ -86,27 +86,19 @@ button:active {
 }
 
 .v-enter-from {
-  opacity: 0;
-  transform: translateY(-30px);
 }
 .v-enter-active {
-  transition: all 0.4s ease-out;
+  animation: slide-fade 0.5s ease-out;
 }
 .v-enter-to {
-  opacity: 1;
-  transform: translateY(0px);
 }
 
 .v-leave-from {
-  opacity: 1;
-  transform: translateY(0);
 }
 .v-leave-active {
-  transition: all 0.4s ease-in;
+  animation: slide-fade 0.5s ease-out;
 }
 .v-leave-to {
-  opacity: 0;
-  transform: translateY(-30px);
 }
 
 @keyframes slide-fade {
